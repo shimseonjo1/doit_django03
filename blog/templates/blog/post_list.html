@@ -67,7 +67,12 @@
                 {%for p in post_list%}
                 <div class="card mb-4">
                     <a href="#!">
+                        {%if p.head_image%}
                         <img class="card-img-top" src="{{p.head_image.url}}" alt="..." />
+                        {%else%}
+                        <img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/850/350" alt="..." />
+                        
+                        {%endif%}
                     </a>
                     <div class="card-body">
                         <div class="small text-muted">{{p.create_at}}</div>
