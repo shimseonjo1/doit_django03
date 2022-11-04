@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import os
 
 # Create your models here.
@@ -12,10 +13,10 @@ class Post(models.Model):
     file_upload = models.FileField(upload_to='blog/files/%Y/%m/%d/',blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    # author : 추후 작성 예정
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'[{self.id}] {self.title}'
+        return f'[{self.id}] {self.title} :: {self.author}'
 
     def get_absolute_url(self):
         return f'/blog/{self.pk}/'
