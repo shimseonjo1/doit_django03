@@ -26,6 +26,16 @@
          {%endif%}
         
          <p class="card-text">{{p.content|truncatewords:45}}</p>
+         {%if p.tags.exists%}
+         <div class="mb-3">
+         <i class="fa-solid fa-tags"></i>
+            {%for tag in p.tags.iterator%}
+            <a href="{{tag.get_absolute_url}}">
+                <span class="badge text-bg-light">{{tag}}</span>
+            </a>
+            {%endfor%}
+        </div>
+         {%endif%}
          <a class="btn btn-primary" href="{{p.get_absolute_url}}">Read more →</a>
      </div>
      <div class="card-footer text-muted">
