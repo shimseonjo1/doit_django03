@@ -58,3 +58,12 @@ class Post(models.Model):
     def get_content_markdown(self):
         return markdown(self.content)
 
+class MnistImage(models.Model):
+    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/')
+    result = models.CharField(max_length=30,blank=True)
+
+    def __str__(self):
+        return f'[{self.id}] {self.result}'
+
+    def get_absolute_url(self):
+        return f'/blog/image_result/{self.pk}/'

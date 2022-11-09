@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
 from django.views.generic import ListView,DetailView,CreateView,UpdateView
-from .models import Post,Category,Tag
+from .models import Post,Category,Tag,MnistImage
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
+from tensorflow.keras.models import load_model
+from PIL import Image
+import numpy as np
+
 # Create your views here.
 
 # def index(request):
@@ -146,3 +150,24 @@ class PostUpdate(LoginRequiredMixin,UpdateView):
                 self.object.tags.add(tag)
         return response
         
+
+class MnistImageCreate(CreateView):
+    model= MnistImage
+    fields=['head_image']
+
+def image_result(request,pk):
+    data = MnistImage.objects.get(pk=pk)
+    img = Image.open(data.head_image).convert('L')
+    img = np.resize(img,(1,784))
+    img = 255-(img)
+    loaded_model = load_model("mnistmodel.h5")
+    pred = loaded_model.predict(img)
+    pred = np.argmax(pred[0])
+    return render(
+        request,
+        'blog/result.html',
+        {
+            'result':pred,
+        }
+    )
+    

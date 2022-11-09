@@ -1,3 +1,4 @@
+ {%load socialaccount%}
  <!-- 네비게이션바 start -->
  <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
     <div class="container">
@@ -17,28 +18,66 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about_me/">About Me</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog/create_image/">숫자인식</a>
                 </li>
+                
             </ul>
         </div>
         <!-- 로그인 start -->
         <ul class="navbar-nav ml-auto">
+            {%if user.is_authenticated%}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    {{user.username}}
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/accounts/logout/">Log Out</a></li>
+                </ul>
+            </li>
+            {%else%}
             <li class="nav-item">
                 <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
             </li>
+            {%endif%}
         </ul>
         <!-- 로그인 end -->
     </div>
 </nav>
 <!-- 네비게이션바 end -->
+ <!-- Modal start-->
+ <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 d-grid gap-2">
+                        <a role="button" href="{%provider_login_url 'google'%}" class="btn btn-outline-dark btn-sm">
+                            <i class="fa-brands fa-google"></i> Login in with Google
+                        </a>
+                        <a role="button" href="/accounts/login/" class="btn btn-outline-dark btn-sm">
+                            <i class="fa-solid fa-user-plus"></i> Login in with username
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-sm-12 d-grid gap-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm"><i class="fa-solid fa-n"></i>
+                            Login in with Naver</button>
+                        <a role="button" href="/accounts/signup" class="btn btn-outline-dark btn-sm">
+                            <i class="fa-regular fa-envelope"></i> Sign up with E-mail
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal end -->
